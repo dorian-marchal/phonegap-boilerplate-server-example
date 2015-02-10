@@ -1,0 +1,9 @@
+- Documenter les modules à installer (mongoose, restify, node, mongodb, ...)
+- Faire fonctionner un serveur Restify simple
+- Interfacer Backbone et Restify
+- Mettre en place un serveur mongodb simple
+- Communiquer avec mongodb via mongoose
+- Faire correspondre les modèles de Backbone et mongoose
+- Faire un npm json
+
+Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
