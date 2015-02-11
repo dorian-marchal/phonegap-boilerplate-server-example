@@ -13,5 +13,6 @@ Tuto mongodb
 - Faire correspondre les modèles de Backbone et mongoose
 - Faire un npm json
 - Script de création de la base de données (ou au moins tuto)
+- Redémarrage auomatique d'un serveur node : http://stackoverflow.com/a/16548045
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
