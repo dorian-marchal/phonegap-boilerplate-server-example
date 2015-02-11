@@ -1,0 +1,3 @@
+exports.creds = {
+    auth: 'mongodb://user:pass@localhost:27017/phonegap-db'
+}
