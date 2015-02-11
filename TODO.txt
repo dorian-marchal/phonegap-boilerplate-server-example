@@ -1,5 +1,11 @@
 - Documenter les modules à installer (mongoose, restify, node, mongodb, ...)
-    sudo apt-get install mongodb
+
+Tuto mongodb
+    Installation : sudo apt-get install mongodb
+    Shell : mongo
+    Authentification : mongo / use admin / db.addUser()
+    Configuration : sudo nano /etc/mongodb.conf / auth = true
+
 - Faire fonctionner un serveur Restify simple
 - Interfacer Backbone et Restify
 - Mettre en place un serveur mongodb simple
