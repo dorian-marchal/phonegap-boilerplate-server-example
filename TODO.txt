@@ -9,14 +9,24 @@ Tuto mongodb
 Util
     nodemon : sudo npm install -g nodemon
 
-- Faire fonctionner un serveur Restify simple
-- Interfacer Backbone et Restify
+OK - Faire fonctionner un serveur Restify simple
+OK - Interfacer Backbone et Restify
 - Mettre en place un serveur mongodb simple
-- Communiquer avec mongodb via mongoose
-- Faire correspondre les modèles de Backbone et mongoose
+    Lancer mongodb au démarrage du serveur
+    Sécuriser le post des données (token dans table user ?)
+OK - Communiquer avec mongodb via mongoose
+OK - Faire correspondre les modèles de Backbone et mongoose
 - Faire un npm json
 - Script de création de la base de données (ou au moins tuto)
 - Redémarrage auomatique d'un serveur node : http://stackoverflow.com/a/16548045
 - Faire le tri dans les dépendances (notamment nodemon)
+- Slide des vues depuis la vue
+- Ajout simple de vues
+- Grille CSS
+- Framework CSS mobile
+- Elements fixes (mais personnalisables) dans une page
+    templates ?
+- Rendre le tout modulaire
+- Automatiser le routing
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
