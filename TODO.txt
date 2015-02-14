@@ -28,5 +28,6 @@ OK - Faire correspondre les modèles de Backbone et mongoose
     templates ?
 - Rendre le tout modulaire
 - Automatiser le routing
+- Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
