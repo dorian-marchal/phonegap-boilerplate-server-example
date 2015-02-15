@@ -20,14 +20,15 @@ OK - Faire correspondre les modèles de Backbone et mongoose
 - Script de création de la base de données (ou au moins tuto)
 - Redémarrage auomatique d'un serveur node : http://stackoverflow.com/a/16548045
 - Faire le tri dans les dépendances (notamment nodemon)
-- Slide des vues depuis la vue
+OK - Slide des vues depuis la vue
 - Ajout simple de vues
-- Grille CSS
+OK - Grille CSS
 - Framework CSS mobile
 - Elements fixes (mais personnalisables) dans une page
     templates ?
-- Rendre le tout modulaire
+- Rendre le tout modulaire (tout diviser en petits modules)
 - Automatiser le routing
 - Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
+- Ajouter fastclick
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
