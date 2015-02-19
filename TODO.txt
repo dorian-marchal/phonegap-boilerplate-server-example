@@ -24,11 +24,65 @@ OK - Slide des vues depuis la vue
 - Ajout simple de vues
 OK - Grille CSS
 - Framework CSS mobile
-- Elements fixes (mais personnalisables) dans une page
-    templates ?
+- Layout :
+    http://stackoverflow.com/questions/15278312/need-help-understanding-the-basics-of-nested-views-in-backbone
+    Supprimer le render des pages "mères" pour plus de flexibilité
+    Séparer le header du footer, permettre de les paramètrer
 - Rendre le tout modulaire (tout diviser en petits modules)
 - Automatiser le routing
 - Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
 - Ajouter fastclick
+- Ajouter une carte via Gmaps.js
+- Gestion des collections / models
+- renommer "id" en "viewId"
+- Build avec Gulp
+
+__Roadmap__
+
+Lundi 16 :
+OK - header / footer indépendants (.75H)
+OK - Renommage de id en viewId (.25H)
+
+Mardi 17 :
+OK - Documentation de base (.5H)
+    + Router
+    + View
+    + Model
+OK - Ne pas dupliquer le traitement
+OK - Construire une vue basée sur le layout
+
+Mercredi 18 :
+OK - collections / models (Affichage d'une liste après modification)
+- Nettoyage / début de module Git / Séparation code user/core
+- Nettoyage des defines
+- Nettoyage des doublequotes
+
+Jeudi 19 :
+- fastclick
+- Automatisation du routing
+
+Vendredi 20 :
+- mysql
+- événements après modification
+- Gulp
+- Test de Backbone sur un téléphone
+
+Weekend :
+- Gmaps
+- Séparation définitive Git
+
+Restera :
+- Documentation
+- Sécurisation / authentification
+- Packaging / dépendance
+- Build avec Gulp
+    + Nettoyage des dépendances inutiles
+- Business logic (GPS, Photos, Carte, ...)
+- Intégration dans PhoneGap
+- Suppression des pages en doublon en fin de transition sous Firefox
+- Remettre en place le cache
+- Régler le problème du scrolling au changement de page
+- Conserver l'état des pages au changement
+
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
