@@ -3,6 +3,8 @@
 var restify = require('restify');
 var server = restify.createServer();
 server.use(restify.bodyParser());
+server.use(restify.CORS());
+server.use(restify.fullResponse());
 
 var mongoose = require('mongoose/');
 var config = require('./config');
@@ -29,6 +31,7 @@ db.once('open', function (callback) {
     var MyModel = mongoose.model('MyModel');
 
     function getMyModels(req, res, next) {
+
         MyModel
             .find()
             .sort({
