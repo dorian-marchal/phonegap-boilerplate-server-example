@@ -63,7 +63,7 @@ Jeudi 19 :
 
 Vendredi 20 :
 - mysql
-- événements après modification
+OK - événements après modification
 - Gulp
 - Test de Backbone sur un téléphone
 
