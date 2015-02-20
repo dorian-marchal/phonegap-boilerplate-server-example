@@ -1,88 +1,41 @@
-- Documenter les modules à installer (mongoose, restify, node, mongodb, ...)
+## Roadmap
 
-Tuto mongodb
+### Code
+- Nettoyage des defines
+- Nettoyage des doublequotes
+- Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
+    - Ajouter une étape de build (important pour les performances -> r.js ?)
+    - Automatiser le routing
+    - Simplifier la création de vues
+- Restify : Authentification
+- Tester sur une vraie plateforme phonegap
+- Intégration dans PhoneGap
+- Régler le problème du scrolling au changement de page
+- Ajouter fastclick
+- Ajouter une carte via Gmaps.js
+- Remettre en place le cache
+- Fichier de configuration
+- MySql via Restify
+- Business logic (GPS, Photos, Carte, ...)
+- Conserver l'état des pages au changement
+- MongoDB : Authentification
+- MongoDB : Lancement au démarrage
+- Factoriser le serveur
+- Framework CSS mobile
+
+### Doc
+- Faire un npm json
+- nodemon : sudo npm install -g nodemon
+- Tuto mongodb
     Installation : sudo apt-get install mongodb
     Shell : mongo
     Authentification : mongo / use admin / db.addUser()
     Configuration : sudo nano /etc/mongodb.conf / auth = true
-
-Util
-    nodemon : sudo npm install -g nodemon
-
-OK - Faire fonctionner un serveur Restify simple
-OK - Interfacer Backbone et Restify
-- Mettre en place un serveur mongodb simple
-    Lancer mongodb au démarrage du serveur
-    Sécuriser le post des données (token dans table user ?)
-OK - Communiquer avec mongodb via mongoose
-OK - Faire correspondre les modèles de Backbone et mongoose
-- Faire un npm json
-- Script de création de la base de données (ou au moins tuto)
-- Redémarrage auomatique d'un serveur node : http://stackoverflow.com/a/16548045
+    - Script de création de la base de données (ou au moins tuto)
+- Documenter les modules à installer (mongoose, restify, node, mongodb, ...)
+- Redémarrage automatique d'un serveur node : http://stackoverflow.com/a/16548045
 - Faire le tri dans les dépendances (notamment nodemon)
-OK - Slide des vues depuis la vue
-- Ajout simple de vues
-OK - Grille CSS
-- Framework CSS mobile
-- Layout :
-    http://stackoverflow.com/questions/15278312/need-help-understanding-the-basics-of-nested-views-in-backbone
-    Supprimer le render des pages "mères" pour plus de flexibilité
-    Séparer le header du footer, permettre de les paramètrer
-- Rendre le tout modulaire (tout diviser en petits modules)
-- Automatiser le routing
-- Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
-- Ajouter fastclick
-- Ajouter une carte via Gmaps.js
-- Gestion des collections / models
-- renommer "id" en "viewId"
-- Build avec Gulp
-
-__Roadmap__
-
-Lundi 16 :
-OK - header / footer indépendants (.75H)
-OK - Renommage de id en viewId (.25H)
-
-Mardi 17 :
-OK - Documentation de base (.5H)
-    + Router
-    + View
-    + Model
-OK - Ne pas dupliquer le traitement
-OK - Construire une vue basée sur le layout
-
-Mercredi 18 :
-OK - collections / models (Affichage d'une liste après modification)
-- Nettoyage / début de module Git / Séparation code user/core
-- Nettoyage des defines
-- Nettoyage des doublequotes
-
-Jeudi 19 :
-- fastclick
-- Automatisation du routing
-
-Vendredi 20 :
-- mysql
-OK - événements après modification
-- Gulp
-- Test de Backbone sur un téléphone
-
-Weekend :
-- Gmaps
-- Séparation définitive Git
-
-Restera :
-- Documentation
-- Sécurisation / authentification
-- Packaging / dépendance
-- Build avec Gulp
-    + Nettoyage des dépendances inutiles
-- Business logic (GPS, Photos, Carte, ...)
-- Intégration dans PhoneGap
-- Suppression des pages en doublon en fin de transition sous Firefox
-- Remettre en place le cache
-- Régler le problème du scrolling au changement de page
-- Conserver l'état des pages au changement
-
+- Tuto de mise en place rapide d'un projet
+- Procédure de mise à jour (documentation des modules et lib à updater)
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
