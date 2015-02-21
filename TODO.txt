@@ -2,6 +2,7 @@
 
 ### Code
 - Nettoyage des defines
+- Corriger le retour qui empeche l'événement de fonctionner
 - Nettoyage des doublequotes
 - Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
     - Ajouter une étape de build (important pour les performances -> r.js ?)
