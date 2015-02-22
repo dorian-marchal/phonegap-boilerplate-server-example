@@ -1,11 +1,8 @@
 ## Roadmap
 
 ### Code
-- Nettoyage des defines
 - Corriger le retour qui empeche l'événement de fonctionner
-- Nettoyage des doublequotes
 - Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
-    - Ajouter une étape de build (important pour les performances -> r.js ?)
     - Automatiser le routing
     - Simplifier la création de vues
 - Restify : Authentification
@@ -23,6 +20,9 @@
 - MongoDB : Lancement au démarrage
 - Factoriser le serveur
 - Framework CSS mobile
+- Fichier de config (ignoré par git)
+- Régler problème de position fixed
+- Régler chargement de page avant transition
 
 ### Doc
 - Faire un npm json
@@ -38,5 +38,9 @@
 - Faire le tri dans les dépendances (notamment nodemon)
 - Tuto de mise en place rapide d'un projet
 - Procédure de mise à jour (documentation des modules et lib à updater)
+- Mise en production
+    compilation : r.js -o build.js (depuis www)
+    remplacement de js/app par dist/main dans l'index
+    Compiler CSS
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
