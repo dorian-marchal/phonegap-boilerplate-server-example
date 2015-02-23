@@ -1,10 +1,8 @@
 ## Roadmap
 
 ### Code
-- Corriger le retour qui empeche l'événement de fonctionner
-- Séparer le "core" (non modifiable) de l'"app" (app utilisateur)
-    - Automatiser le routing
-    - Simplifier la création de vues
+- Automatiser le routing
+- Simplifier la création de vues
 - Restify : Authentification
 - Tester sur une vraie plateforme phonegap
 - Intégration dans PhoneGap
