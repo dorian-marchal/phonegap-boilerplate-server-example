@@ -2,6 +2,7 @@
 
 ### Code
 - Automatiser le routing
+    - Faire un layout de base dans Core
 - Simplifier la création de vues
 - Restify : Authentification
 - Tester sur une vraie plateforme phonegap
