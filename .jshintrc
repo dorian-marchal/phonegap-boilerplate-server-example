@@ -1,0 +1,14 @@
+{
+    "node": true,
+    "globalstrict": true,
+    "esnext": true,
+    "quotmark": "simple",
+    "curly": true,
+    "undef": true,
+    "unused": true,
+    "globals": {
+        "module": true,
+        "require": true,
+        "exports": true
+    }
+}
