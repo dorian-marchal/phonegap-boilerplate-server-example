@@ -1,24 +1,31 @@
-module.exports = function() {
-    'use strict';
+'use strict';
+
+var RestServer = function() {
+
+    this.config = require('../config');
 
     var restify = require('restify');
-    var server = restify.createServer();
-    server.use(restify.bodyParser());
-    server.use(restify.CORS());
-    server.use(restify.fullResponse());
+    this.server = restify.createServer();
+    this.server.use(restify.bodyParser());
+    this.server.use(restify.CORS());
+    this.server.use(restify.fullResponse());
 
-    var mongoose = require('mongoose/');
-    var config = require('../config');
+};
+
+RestServer.prototype.start = function() {
+
+    var that = this;
 
     console.log('Database connection...');
 
-    mongoose.connect(config.creds.auth);
+    var mongoose = require('mongoose/');
 
-    var db = mongoose.connection;
+    that.db = mongoose.connection;
+    mongoose.connect(that.config.creds.auth);
 
-    db.on('error', console.error.bind(console, 'connection error:'));
+    that.db.on('error', console.error.bind(console, 'connection error: '));
 
-    db.once('open', function (callback) {
+    that.db.once('open', function (callback) {
 
         console.log('Database connected !');
 
@@ -39,7 +46,9 @@ module.exports = function() {
                     date: 'desc'
                 })
                 .exec(function (err, data) {
-                    if (err) return console.error(err);
+                    if (err) {
+                        return console.error(err);
+                    }
                     res.send(data);
                 })
             ;
@@ -66,7 +75,9 @@ module.exports = function() {
             mymodel.date = new Date();
 
             mymodel.save(function (err, mymodel) {
-                if (err) return console.error(err);
+                if (err) {
+                    return console.error(err);
+                }
                 res.send(req.body);
             });
         }
@@ -74,12 +85,14 @@ module.exports = function() {
         console.log('Setting up server...');
 
         // Set up our routes and start the server
-        server.get('/mymodels', getMyModels);
-        server.post('/mymodels', postMyModel);
+        that.server.get('/mymodels', getMyModels);
+        that.server.post('/mymodels', postMyModel);
 
-        server.listen(8080, function() {
+        that.server.listen(8080, function() {
           console.log('Server listening on port 8080...');
         });
 
     });
 };
+
+module.exports = new RestServer();
