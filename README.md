@@ -1,2 +1,2 @@
-# phonegap-server-boilerplate
-Un socle serveur de base pour développer un e application avec phonegap-boilerplate (https://github.com/dorian-marchal/phonegap-boilerplate)
+# phonegap-boilerplate-server-example
+A simple server example to go with this client example : https://github.com/dorian-marchal/phonegap-boilerplate-example
