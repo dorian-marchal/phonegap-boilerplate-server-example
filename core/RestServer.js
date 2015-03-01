@@ -25,7 +25,7 @@ RestServer.prototype.start = function() {
 
     that.db.on('error', console.error.bind(console, 'connection error: '));
 
-    that.db.once('open', function (callback) {
+    that.db.once('open', function () {
 
         console.log('Database connected !');
 
@@ -38,7 +38,7 @@ RestServer.prototype.start = function() {
         mongoose.model('MyModel', MyModelSchema);
         var MyModel = mongoose.model('MyModel');
 
-        function getMyModels(req, res, next) {
+        function getMyModels(req, res) {
 
             MyModel
                 .find()
@@ -54,7 +54,7 @@ RestServer.prototype.start = function() {
             ;
         }
 
-        function postMyModel(req, res, next) {
+        function postMyModel(req, res) {
 
             var mymodel = new MyModel();
 
@@ -74,7 +74,7 @@ RestServer.prototype.start = function() {
 
             mymodel.date = new Date();
 
-            mymodel.save(function (err, mymodel) {
+            mymodel.save(function (err) {
                 if (err) {
                     return console.error(err);
                 }
