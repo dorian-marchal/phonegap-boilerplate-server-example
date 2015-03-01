@@ -5,10 +5,10 @@ var RestServer = function() {
     this.config = require('../config');
 
     var restify = require('restify');
-    this.server = restify.createServer();
-    this.server.use(restify.bodyParser());
-    this.server.use(restify.CORS());
-    this.server.use(restify.fullResponse());
+    this.router = restify.createServer();
+    this.router.use(restify.bodyParser());
+    this.router.use(restify.CORS());
+    this.router.use(restify.fullResponse());
 
 };
 
@@ -85,11 +85,11 @@ RestServer.prototype.start = function() {
         console.log('Setting up server...');
 
         // Set up our routes and start the server
-        that.server.get('/mymodels', getMyModels);
-        that.server.post('/mymodels', postMyModel);
+        that.router.get('/mymodels', getMyModels);
+        that.router.post('/mymodels', postMyModel);
 
-        that.server.listen(8080, function() {
-          console.log('Server listening on port 8080...');
+        that.router.listen(8080, function() {
+            console.log('Server listening on port 8080...');
         });
 
     });
