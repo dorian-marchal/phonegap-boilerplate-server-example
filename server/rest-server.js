@@ -1,4 +1,13 @@
 'use strict';
 
 var server = require('../core/RestServer');
-server.start();
+
+function onStart() {
+
+}
+
+function onError() {
+    console.error('Connection error !');
+}
+
+server.start(onStart, onError);

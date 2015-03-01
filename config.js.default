@@ -1,3 +1,11 @@
-exports.creds = {
-    auth: 'mongodb://user:pass@localhost:27017/phonegap-db'
-}
+'use strict';
+
+var config = {
+
+    port: 8080,
+    db: {
+        auth: 'mongodb://user:pass@localhost:27017/phonegap-db',
+    },
+};
+
+module.exports = config;

@@ -12,22 +12,27 @@ var RestServer = function() {
 
 };
 
-RestServer.prototype.start = function() {
+RestServer.prototype.start = function(onStart, onError) {
 
     var that = this;
+
+    onStart = onStart || function() {};
+    onError = onError || function() {};
+
 
     console.log('Database connection...');
 
     var mongoose = require('mongoose/');
 
     that.db = mongoose.connection;
-    mongoose.connect(that.config.creds.auth);
+    mongoose.connect(that.config.db.auth);
 
-    that.db.on('error', console.error.bind(console, 'connection error: '));
+    that.db.on('error', onError);
 
     that.db.once('open', function () {
 
         console.log('Database connected !');
+        onStart();
 
         var MyModelSchema = new mongoose.Schema({
             attribute: String,
@@ -82,15 +87,12 @@ RestServer.prototype.start = function() {
             });
         }
 
-        console.log('Setting up server...');
-
+        that.router.listen(that.config.port, function() {
+            console.log('Server listening on port ' + that.config.port + '...');
+        });
         // Set up our routes and start the server
         that.router.get('/mymodels', getMyModels);
         that.router.post('/mymodels', postMyModel);
-
-        that.router.listen(8080, function() {
-            console.log('Server listening on port 8080...');
-        });
 
     });
 };
