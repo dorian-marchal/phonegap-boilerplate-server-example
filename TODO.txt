@@ -24,22 +24,25 @@
 - Régler chargement de page avant transition
 
 ### Doc
-- Faire un npm json
-- nodemon : sudo npm install -g nodemon
-- Tuto mongodb
-    Installation : sudo apt-get install mongodb
-    Shell : mongo
-    Authentification : mongo / use admin / db.addUser()
-    Configuration : sudo nano /etc/mongodb.conf / auth = true
-    - Script de création de la base de données (ou au moins tuto)
-- Documenter les modules à installer (mongoose, restify, node, mongodb, ...)
-- Redémarrage automatique d'un serveur node : http://stackoverflow.com/a/16548045
-- Faire le tri dans les dépendances (notamment nodemon)
-- Tuto de mise en place rapide d'un projet
-- Procédure de mise à jour (documentation des modules et lib à updater)
-- Mise en production
-    compilation : r.js -o build.js (depuis www)
-    remplacement de js/app par dist/main dans l'index
-    Compiler CSS
+- Serveur
+    - Faire un npm json
+    - nodemon : sudo npm install -g nodemon
+    - Tuto mongodb
+        Installation : sudo apt-get install mongodb
+        Shell : mongo
+        Authentification : mongo / use admin / db.addUser()
+        Configuration : sudo nano /etc/mongodb.conf / auth = true
+        - Script de création de la base de données (ou au moins tuto)
+    - Documenter les modules à installer (mongoose, restify, node, mongodb, ...)
+    - Redémarrage automatique d'un serveur node : http://stackoverflow.com/a/16548045
+    - Faire le tri dans les dépendances (notamment nodemon)
+- Client
+    + Mise en production
+        compilation : r.js -o build.js (depuis www)
+        remplacement de js/app par dist/main dans l'index
+        Compiler CSS
+- Général
+    - Tuto de mise en place rapide d'un projet
+    - Procédure de mise à jour (documentation des modules et lib à updater)
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
