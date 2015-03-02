@@ -1,17 +1,36 @@
 'use strict';
 
+
 var RestServer = function() {
 
+    // Load configuration
     this.config = require('../config');
 
+    // Configure restify server
     var restify = require('restify');
-    this.router = restify.createServer();
-    this.router.use(restify.bodyParser());
-    this.router.use(restify.CORS());
-    this.router.use(restify.fullResponse());
+    var router = restify.createServer();
+    router.use(restify.bodyParser());
+    router.use(restify.CORS());
+    router.use(restify.fullResponse());
+    this.router = router;
 
+    // Configure passport authentification
+    var passport = require('passport');
+    var LocalStrategy = require('passport-local').Strategy;
+    passport.use(new LocalStrategy(
+        function(username, password, done) {
+            if (username === 'test' && password === 'test') {
+                done(null, true);
+            }
+            else {
+                done(null, false);
+            }
+        }
+    ));
+    this.passport = passport;
 };
 
+// Start rest server
 RestServer.prototype.start = function(onStart, onError) {
 
     var that = this;

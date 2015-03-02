@@ -58,7 +58,10 @@ function onStart() {
     }
 
     // Set up our routes and start the server
-    server.router.get('/mymodels', getMyModels);
+    server.router.get('/mymodels', function(req, res, next) {
+        console.log('get :)');
+        next();
+    }, getMyModels);
     server.router.post('/mymodels', postMyModel);
 }
 
