@@ -1,7 +1,15 @@
 'use strict';
 
+/**
+ * A simple and easy to configure rest server.
+ *
+ * options :
+ *  useAuth (default: false) ; If true, the passport property will be defined
+ *  database (default : mongodb) ; 'mongodb' or 'mysql'
+ */
+var RestServer = function(options) {
 
-var RestServer = function() {
+    options = options || {};
 
     // Load configuration
     this.config = require('../config');
@@ -15,19 +23,21 @@ var RestServer = function() {
     this.router = router;
 
     // Configure passport authentification
-    var passport = require('passport');
-    var LocalStrategy = require('passport-local').Strategy;
-    passport.use(new LocalStrategy(
-        function(username, password, done) {
-            if (username === 'test' && password === 'test') {
-                done(null, true);
-            }
-            else {
-                done(null, false);
-            }
-        }
-    ));
-    this.passport = passport;
+    if (options.useAuth) {
+        var passport = require('passport');
+
+        passport.serializeUser(function(user, done) {
+            done(null, user);
+        });
+
+        passport.deserializeUser(function(user, done) {
+            done(null, user);
+        });
+
+        router.use(passport.initialize());
+        this.passport = passport;
+        this.PassportLocal = require('passport-local').Strategy;
+    }
 };
 
 // Start rest server
