@@ -70,4 +70,4 @@ RestServer.prototype.start = function(onStart, onError) {
     });
 };
 
-module.exports = new RestServer();
+module.exports = RestServer;
