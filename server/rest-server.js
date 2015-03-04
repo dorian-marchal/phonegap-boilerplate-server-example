@@ -1,8 +1,40 @@
 'use strict';
 
-var server = require('../core/RestServer');
+var RestServer = require('../core/RestServer');
+
+var server = new RestServer({
+    useAuth: true,
+    database: 'mysql',
+});
 
 function onStart() {
+
+    // Configure the authentification
+    var UserSchema = new server.mongoose.Schema({
+        username: String,
+        password: String,
+    }, {
+        collection: 'User',
+    });
+
+
+    var User = server.mongoose.model('User', UserSchema);
+
+    server.passport.use(new server.BasicStrategy(
+        function(username, password, done) {
+            User.findOne({ username: username }, function(err, user) {
+                if (err) { return done(err); }
+                if (!user) {
+                    return done(null, false, { message: 'Incorrect username.' });
+                }
+                if (user.password !== password) {
+                    return done(null, false, { message: 'Incorrect password.' });
+                }
+                return done(null, user);
+            });
+          }
+    ));
+
 
     var MyModelSchema = new server.mongoose.Schema({
         attribute: String,
@@ -58,11 +90,8 @@ function onStart() {
     }
 
     // Set up our routes and start the server
-    server.router.get('/mymodels', function(req, res, next) {
-        console.log('get :)');
-        next();
-    }, getMyModels);
-    server.router.post('/mymodels', postMyModel);
+    server.router.get('/mymodels', server.passport.authenticate('basic'), getMyModels);
+    server.router.post('/mymodels', server.passport.authenticate('basic'), postMyModel);
 }
 
 function onError() {
