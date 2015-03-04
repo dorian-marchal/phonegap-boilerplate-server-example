@@ -6,6 +6,7 @@ var config = {
     db: {
         auth: 'mongodb://user:pass@localhost:27017/phonegap-db',
     },
+    sessionSecret: 'phonegap-boilerplate-server',
 };
 
 module.exports = config;

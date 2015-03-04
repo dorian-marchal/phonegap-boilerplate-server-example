@@ -25,6 +25,11 @@ var RestServer = function(options) {
     // Configure passport authentification
     if (options.useAuth) {
         var passport = require('passport');
+        var sessions = require('client-sessions');
+
+        router.use(sessions({ secret: this.config.sessionSecret }));
+        router.use(passport.initialize());
+        router.use(passport.session());
 
         passport.serializeUser(function(user, done) {
             done(null, user);
@@ -34,9 +39,8 @@ var RestServer = function(options) {
             done(null, user);
         });
 
-        router.use(passport.initialize());
         this.passport = passport;
-        this.PassportLocal = require('passport-local').Strategy;
+        this.BasicStrategy = require('passport-http').BasicStrategy;
     }
 };
 
