@@ -5,11 +5,15 @@
  *
  * options :
  *  useAuth (default: false) ; If true, the passport property will be defined
- *  database (default : mongodb) ; 'mongodb' or 'mysql'
+ *  useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
+ *  useMysql (default : false) ; If true, mysqlConnection will be defined
  */
 var RestServer = function(options) {
 
     options = options || {};
+
+    this.useMongo = options.useMongo;
+    this.useMysql = options.useMysql;
 
     // Load configuration
     this.config = require('../config');
@@ -44,34 +48,41 @@ var RestServer = function(options) {
     }
 };
 
-// Start rest server
-RestServer.prototype.start = function(onStart, onError) {
+/**
+ * Connect to database(s) and start rest server
+ * @param  {function} onStart called when the databases are connected and the server is ready
+ */
+RestServer.prototype.start = function(onStart) {
 
     var that = this;
 
     onStart = onStart || function() {};
-    onError = onError || function() {};
-
 
     console.log('Database connection...');
 
-    that.mongoose = require('mongoose/');
+    if (that.useMongo) {
 
-    that.db = that.mongoose.connection;
-    that.mongoose.connect(that.config.db.auth);
+        console.log('MongoDB connection...');
+        that.mongoose = require('mongoose/');
+        that.mongoConnection = that.mongoose.connection;
+        that.mongoose.connect(that.config.db.auth);
 
-    that.db.on('error', onError);
-
-    that.db.once('open', function () {
-
-        console.log('Database connected !');
-
-        that.router.listen(that.config.port, function() {
-            console.log('Server listening on port ' + that.config.port + '...');
-            onStart();
+        that.mongoConnection.on('error', function(err) {
+            console.error('MongoDB error');
+            throw err;
         });
 
-    });
+        that.mongoConnection.once('open', function () {
+
+            console.log('MongoDB connected !');
+
+            that.router.listen(that.config.port, function() {
+                console.log('Server listening on port ' + that.config.port + '...');
+                onStart();
+            });
+
+        });
+    }
 };
 
 module.exports = RestServer;
