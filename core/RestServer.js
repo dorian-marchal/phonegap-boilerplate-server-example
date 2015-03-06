@@ -27,24 +27,21 @@ var RestServer = function(options) {
     var router = express();
 
     router.use(cors());
-    router.use(bodyParser());
+    router.use(bodyParser.urlencoded({ extended: false }));
 
     // Configure passport authentification
     if (options.useAuth) {
         var passport = require('passport');
         var sessions = require('express-session');
 
-        router.use(sessions({ secret: this.config.sessionSecret }));
+        router.use(sessions({
+            secret: this.config.sessionSecret,
+            maxAge: null,
+            resave: true,
+            saveUninitialized: true,
+        }));
         router.use(passport.initialize());
         router.use(passport.session());
-
-        passport.serializeUser(function(user, done) {
-            done(null, user);
-        });
-
-        passport.deserializeUser(function(user, done) {
-            done(null, user);
-        });
 
         this.passport = passport;
         this.LocalStrategy = require('passport-local').Strategy;
