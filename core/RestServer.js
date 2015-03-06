@@ -18,18 +18,21 @@ var RestServer = function(options) {
     // Load configuration
     this.config = require('../config');
 
-    // Configure restify server
-    var restify = require('restify');
-    var router = restify.createServer();
-    router.use(restify.bodyParser());
-    router.use(restify.CORS());
-    router.use(restify.fullResponse());
-    this.router = router;
+    // Load node modules
+    var express = require('express');
+    var bodyParser = require('body-parser');
+    var cors = require('cors');
+
+
+    var router = express();
+
+    router.use(cors());
+    router.use(bodyParser());
 
     // Configure passport authentification
     if (options.useAuth) {
         var passport = require('passport');
-        var sessions = require('client-sessions');
+        var sessions = require('express-session');
 
         router.use(sessions({ secret: this.config.sessionSecret }));
         router.use(passport.initialize());
@@ -44,8 +47,10 @@ var RestServer = function(options) {
         });
 
         this.passport = passport;
-        this.BasicStrategy = require('passport-http').BasicStrategy;
+        this.LocalStrategy = require('passport-local').Strategy;
     }
+
+    this.router = router;
 };
 
 /**
