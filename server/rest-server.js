@@ -4,7 +4,8 @@ var RestServer = require('../core/RestServer');
 
 var server = new RestServer({
     useAuth: true,
-    database: 'mysql',
+    useMongo: true,
+    useMysql: true,
 });
 
 function onStart() {
@@ -20,8 +21,9 @@ function onStart() {
 
     var User = server.mongoose.model('User', UserSchema);
 
-    server.passport.use(new server.BasicStrategy(
+    server.passport.use(new server.LocalStrategy(
         function(username, password, done) {
+            console.log(username, password);
             User.findOne({ username: username }, function(err, user) {
                 if (err) { return done(err); }
                 if (!user) {
@@ -34,6 +36,18 @@ function onStart() {
             });
           }
     ));
+
+    server.passport.serializeUser(function(user, done) {
+        done(null, user.id);
+    });
+
+    server.passport.deserializeUser(function(id, done) {
+        console.log(id);
+        User.findById(id, function(err, user) {
+            console.log(user);
+            done(err, user);
+        });
+    });
 
 
     var MyModelSchema = new server.mongoose.Schema({
@@ -89,9 +103,22 @@ function onStart() {
         });
     }
 
+    function ensureAuthentication(req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+        else {
+            console.log('You must login, first !');
+            res.sendStatus(401);
+        }
+    }
+
     // Set up our routes and start the server
-    server.router.get('/mymodels', server.passport.authenticate('basic'), getMyModels);
-    server.router.post('/mymodels', server.passport.authenticate('basic'), postMyModel);
+    server.router.post('/login', server.passport.authenticate('local'), function(req, res) {
+        res.sendStatus(200);
+    });
+    server.router.get('/mymodels', ensureAuthentication, getMyModels);
+    server.router.post('/mymodels', ensureAuthentication, postMyModel);
 }
 
 function onError() {
