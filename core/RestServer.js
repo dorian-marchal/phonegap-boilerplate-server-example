@@ -26,7 +26,10 @@ var RestServer = function(options) {
 
     var router = express();
 
-    router.use(cors());
+    router.use(cors({
+        origin: this.config.corsOrigin,
+        credentials: true,
+    }));
     router.use(bodyParser.urlencoded({ extended: false }));
 
     // Configure passport authentification

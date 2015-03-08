@@ -6,6 +6,7 @@ var config = {
     db: {
         auth: 'mongodb://user:pass@localhost:27017/phonegap-db',
     },
+    corsOrigin: 'localhost', // Change to '*' in production
     sessionSecret: 'phonegap-boilerplate-server',
 };
 

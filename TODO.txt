@@ -28,6 +28,7 @@
 - Serveur
     - Faire un npm json
     - nodemon : sudo npm install -g nodemon
+    - Tuto passport ?
     - Tuto mongodb
         Installation : sudo apt-get install mongodb
         Shell : mongo
