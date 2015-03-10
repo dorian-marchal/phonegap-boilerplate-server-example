@@ -1,10 +1,17 @@
 'use strict';
 
 var config = {
-
     port: 8080,
     db: {
-        auth: 'mongodb://user:pass@localhost:27017/phonegap-db',
+        mongo: {
+            auth: 'mongodb://user:pass@localhost:27017/phonegap-db',
+        },
+        mysql: {
+            host: 'localhost',
+            username: 'user',
+            password: 'pass',
+            database: 'db',
+        },
     },
     corsOrigin: 'localhost', // Change to '*' in production
     sessionSecret: 'phonegap-boilerplate-server',
