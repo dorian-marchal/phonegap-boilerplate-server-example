@@ -22,18 +22,20 @@
 - Fichier de config (ignoré par git)
 - Régler problème de position fixed
 - Régler chargement de page avant transition
+- Passer à express plutôt que restify ?
 
 ### Doc
 - Serveur
     - Faire un npm json
     - nodemon : sudo npm install -g nodemon
+    - Tuto passport ?
     - Tuto mongodb
         Installation : sudo apt-get install mongodb
         Shell : mongo
         Authentification : mongo / use admin / db.addUser()
         Configuration : sudo nano /etc/mongodb.conf / auth = true
         - Script de création de la base de données (ou au moins tuto)
-    - Documenter les modules à installer (mongoose, restify, node, mongodb, ...)
+    - Documenter les modules à installer (mongoose, restify, node, mongodb, passport, passport-http, ...)
     - Redémarrage automatique d'un serveur node : http://stackoverflow.com/a/16548045
     - Faire le tri dans les dépendances (notamment nodemon)
 - Client

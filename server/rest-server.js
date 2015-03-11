@@ -1,8 +1,54 @@
 'use strict';
 
-var server = require('../core/RestServer');
+var RestServer = require('../core/RestServer');
+
+var server = new RestServer({
+    useAuth: true,
+    useMongo: true,
+    useMysql: true,
+});
 
 function onStart() {
+
+    // Configure the authentification
+    var UserSchema = new server.mongoose.Schema({
+        username: String,
+        password: String,
+    }, {
+        collection: 'User',
+    });
+
+
+    var User = server.mongoose.model('User', UserSchema);
+
+    server.passport.use(new server.LocalStrategy(
+        function(username, password, done) {
+            console.log(username, password);
+            User.findOne({ username: username }, function(err, user) {
+                if (err) { return done(err); }
+                if (!user) {
+                    return done(null, false, { message: 'Incorrect username.' });
+                }
+                if (user.password !== password) {
+                    return done(null, false, { message: 'Incorrect password.' });
+                }
+                return done(null, user);
+            });
+          }
+    ));
+
+    server.passport.serializeUser(function(user, done) {
+        done(null, user.id);
+    });
+
+    server.passport.deserializeUser(function(id, done) {
+        console.log(id);
+        User.findById(id, function(err, user) {
+            console.log(user);
+            done(err, user);
+        });
+    });
+
 
     var MyModelSchema = new server.mongoose.Schema({
         attribute: String,
@@ -57,12 +103,22 @@ function onStart() {
         });
     }
 
+    function ensureAuthentication(req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+        else {
+            console.log('You must login, first !');
+            res.sendStatus(401);
+        }
+    }
+
     // Set up our routes and start the server
-    server.router.get('/mymodels', function(req, res, next) {
-        console.log('get :)');
-        next();
-    }, getMyModels);
-    server.router.post('/mymodels', postMyModel);
+    server.router.post('/login', server.passport.authenticate('local'), function(req, res) {
+        res.sendStatus(200);
+    });
+    server.router.get('/mymodels', ensureAuthentication, getMyModels);
+    server.router.post('/mymodels', ensureAuthentication, postMyModel);
 }
 
 function onError() {
