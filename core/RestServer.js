@@ -3,10 +3,20 @@
 /**
  * A simple and easy to configure rest server.
  *
- * options :
- *  useAuth (default: false) ; If true, the passport property will be defined
- *  useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
- *  useMysql (default : false) ; If true, mysqlConnection will be defined
+ * Server properties :
+ *     this.config : loaded config
+ *     this.router : express instance
+ *
+ * Server Options :
+ *     useAuth (default: false) ; If true, the passport property will be defined
+ *         this.passport : passport instance
+ *         this.LocalStrategy : passport LocalStrategy
+ *     useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
+ *         this.mongoose : Mongoose instance
+ *         this.mongoConnection : MongoDb connection
+ *     useMysql (default : false) ; If true, mysqlConnection will be defined
+ *         that.mysql : Mysql module instance
+ *         that.mysqlConnection : MySQL connection
  */
 var RestServer = function(options) {
 
