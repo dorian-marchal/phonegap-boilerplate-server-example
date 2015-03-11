@@ -3,10 +3,20 @@
 /**
  * A simple and easy to configure rest server.
  *
- * options :
- *  useAuth (default: false) ; If true, the passport property will be defined
- *  useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
- *  useMysql (default : false) ; If true, mysqlConnection will be defined
+ * Server properties :
+ *     this.config : loaded config
+ *     this.router : express instance
+ *
+ * Server Options :
+ *     useAuth (default: false) ; If true, the passport property will be defined
+ *         this.passport : passport instance
+ *         this.LocalStrategy : passport LocalStrategy
+ *     useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
+ *         this.mongoose : Mongoose instance
+ *         this.mongoConnection : MongoDb connection
+ *     useMysql (default : false) ; If true, mysqlConnection will be defined
+ *         that.mysql : Mysql module instance
+ *         that.mysqlConnection : MySQL connection
  */
 var RestServer = function(options) {
 
@@ -63,14 +73,16 @@ RestServer.prototype.start = function(onStart) {
 
     onStart = onStart || function() {};
 
+    var async = require('async');
+
     console.log('Database connection...');
 
-    if (that.useMongo) {
-
+    // Make a connection to the mongo database
+    var connectMongo = function(callback) {
         console.log('MongoDB connection...');
         that.mongoose = require('mongoose/');
         that.mongoConnection = that.mongoose.connection;
-        that.mongoose.connect(that.config.db.auth);
+        that.mongoose.connect(that.config.db.mongo.auth);
 
         that.mongoConnection.on('error', function(err) {
             console.error('MongoDB error');
@@ -78,16 +90,56 @@ RestServer.prototype.start = function(onStart) {
         });
 
         that.mongoConnection.once('open', function () {
-
             console.log('MongoDB connected !');
-
-            that.router.listen(that.config.port, function() {
-                console.log('Server listening on port ' + that.config.port + '...');
-                onStart();
-            });
-
+            callback(null);
         });
+    };
+
+    // Make a connection to the mysql database
+    var connectMysql = function(callback) {
+        console.log('MySQL connection...');
+        that.mysql = require('mysql');
+
+        that.mysqlConnection = that.mysql.createConnection({
+            host : that.config.db.mysql.host,
+            user : that.config.db.mysql.username,
+            password : that.config.db.mysql.password,
+            database : that.config.db.mysql.database,
+        });
+
+        that.mysqlConnection.connect(function(err) {
+            if (err) {
+                console.error('MySQL error');
+                throw err;
+            }
+
+            console.log('MySQL connected !');
+            callback(null);
+        });
+    };
+
+    var dbConnections = {};
+
+    if (that.useMongo) {
+        dbConnections.mongo = connectMongo;
     }
+    if (that.useMysql) {
+        dbConnections.mysql = connectMysql;
+    }
+
+    async.parallel(dbConnections, function(err) {
+
+        if (err) {
+            throw err;
+        }
+
+        that.router.listen(that.config.port, function() {
+            console.log('Server listening on port ' + that.config.port + '...');
+            onStart();
+        });
+
+    });
+
 };
 
 module.exports = RestServer;
