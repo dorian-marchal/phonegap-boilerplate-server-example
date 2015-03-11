@@ -63,10 +63,12 @@ RestServer.prototype.start = function(onStart) {
 
     onStart = onStart || function() {};
 
+    var async = require('async');
+
     console.log('Database connection...');
 
-    if (that.useMongo) {
-
+    // Make a connection to the mongo database
+    var connectMongo = function(callback) {
         console.log('MongoDB connection...');
         that.mongoose = require('mongoose/');
         that.mongoConnection = that.mongoose.connection;
@@ -78,22 +80,15 @@ RestServer.prototype.start = function(onStart) {
         });
 
         that.mongoConnection.once('open', function () {
-
             console.log('MongoDB connected !');
-
-            that.router.listen(that.config.port, function() {
-                console.log('Server listening on port ' + that.config.port + '...');
-                onStart();
-            });
-
+            callback(null);
         });
-    }
+    };
 
-    if (that.useMysql) {
-
+    // Make a connection to the mysql database
+    var connectMysql = function(callback) {
         console.log('MySQL connection...');
         that.mysql = require('mysql');
-
 
         that.mysqlConnection = that.mysql.createConnection({
             host : that.config.db.mysql.host,
@@ -109,8 +104,32 @@ RestServer.prototype.start = function(onStart) {
             }
 
             console.log('MySQL connected !');
+            callback(null);
         });
+    };
+
+    var dbConnections = {};
+
+    if (that.useMongo) {
+        dbConnections.mongo = connectMongo;
     }
+    if (that.useMysql) {
+        dbConnections.mysql = connectMysql;
+    }
+
+    async.parallel(dbConnections, function(err) {
+
+        if (err) {
+            throw err;
+        }
+
+        that.router.listen(that.config.port, function() {
+            console.log('Server listening on port ' + that.config.port + '...');
+            onStart();
+        });
+
+    });
+
 };
 
 module.exports = RestServer;
