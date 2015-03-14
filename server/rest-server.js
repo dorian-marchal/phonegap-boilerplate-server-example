@@ -108,7 +108,7 @@ function onStart() {
             return next();
         }
         else {
-            console.log('You must login, first !');
+            console.log('User not logged in');
             res.sendStatus(401);
         }
     }
@@ -117,8 +117,14 @@ function onStart() {
     server.router.post('/login', server.passport.authenticate('local'), function(req, res) {
         res.sendStatus(200);
     });
+
+    // Send status 200 if the user is authentificated. Else send 401 status.
+    server.router.post('/logged-in', ensureAuthentication, function(req, res) {
+        res.sendStatus(200);
+    });
     server.router.get('/mymodels', ensureAuthentication, getMyModels);
     server.router.post('/mymodels', ensureAuthentication, postMyModel);
+
 }
 
 function onError() {
