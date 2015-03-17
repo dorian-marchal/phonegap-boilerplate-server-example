@@ -119,7 +119,7 @@ function onStart() {
     });
 
     // Send status 200 if the user is authentificated. Else send 401 status.
-    server.router.post('/logged-in', ensureAuthentication, function(req, res) {
+    server.router.get('/logged-in', ensureAuthentication, function(req, res) {
         res.sendStatus(200);
     });
     server.router.get('/mymodels', ensureAuthentication, getMyModels);
