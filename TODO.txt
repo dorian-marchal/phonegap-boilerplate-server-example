@@ -3,6 +3,8 @@
 ### Code
 - Automatiser le routing
     - Faire un layout de base dans Core
+    - Faire du router un singleton accessible dans toute l'app
+    - Gérer les changement de vue avec le router
 - Simplifier la création de vues
 - Tester sur une vraie plateforme phonegap
 - Intégration dans PhoneGap
