@@ -118,6 +118,11 @@ function onStart() {
         res.sendStatus(200);
     });
 
+    server.router.post('/logout', function(req, res) {
+        req.logout();
+        res.sendStatus(200);
+    });
+
     // Send status 200 if the user is authentificated. Else send 401 status.
     server.router.get('/logged-in', ensureAuthentication, function(req, res) {
         res.sendStatus(200);
