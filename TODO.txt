@@ -1,6 +1,7 @@
 ## Roadmap
 
 ### Code
+- Faire une branche à part pour le core
 - Automatiser le routing
     - Faire un layout de base dans Core
     - Faire du router un singleton accessible dans toute l'app
