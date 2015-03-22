@@ -1,8 +1,6 @@
 ## Roadmap
 
 ### Code
-- Automatiser le routing
-    - Faire un layout de base dans Core
 - Simplifier la création de vues
 - Restify : Authentification
 - Tester sur une vraie plateforme phonegap
@@ -12,7 +10,6 @@
 - Ajouter une carte via Gmaps.js
 - Remettre en place le cache
 - Fichier de configuration
-- MySql via Restify
 - Business logic (GPS, Photos, Carte, ...)
 - Conserver l'état des pages au changement
 - MongoDB : Authentification
@@ -26,7 +23,7 @@
 
 ### Doc
 - Serveur
-    - Faire un npm json
+    - Mettre à jour le npm json
     - nodemon : sudo npm install -g nodemon
     - Tuto passport ?
     - Tuto mongodb
