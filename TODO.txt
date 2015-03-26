@@ -1,6 +1,16 @@
 ## Roadmap
 
 ### Code
+- Importer le projet sur Android Studio
+- Le faire fonctionner sur un android 2.3/4/5
+- Séparer le coeur de l'exemple (deux dépôts séparés)
+- Vérifier que l'authentification fonctionne bien
+- Renommer les classes d'une façon plus cohérente
+- Faire une doc en même temps que le nouveau projet
+- Automatiser le routing
+    - Faire un layout de base dans Core
+    - Faire du router un singleton accessible dans toute l'app
+    - Gérer les changement de vue avec le router
 - Simplifier la création de vues
 - Restify : Authentification
 - Tester sur une vraie plateforme phonegap
