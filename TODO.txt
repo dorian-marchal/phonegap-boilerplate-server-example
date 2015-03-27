@@ -5,6 +5,8 @@
 - Le faire fonctionner sur un android 2.3/4/5
 - Séparer le coeur de l'exemple (deux dépôts séparés)
 - Vérifier que l'authentification fonctionne bien
+- Vérifier que R.js fonctionne avec Phonegap
+- Faire un module Cordova
 - Renommer les classes d'une façon plus cohérente
 - Faire une doc en même temps que le nouveau projet
 - Automatiser le routing
@@ -26,6 +28,13 @@
 - Framework CSS mobile
 - Régler problème de position fixed
 - Régler chargement de page avant transition
+
+### Fonctionnalités
+- Splashscreen
+- Icônes
+- Faire un SitlorAppBoilerplate
+    + Fiches dans un Singleton
+- Internationalisation
 
 ### Doc
 - Serveur
