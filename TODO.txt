@@ -1,9 +1,6 @@
 ## Roadmap
 
 ### Code
-- Redesigner le projet (sous modules ou subtree ?)
-    + push
-    + pull
 - Vérifier que l'authentification fonctionne bien
     + Passer à une authentification via token
         * suppression des sessions
@@ -12,6 +9,7 @@
     + Modifier les classes de l'API client
         * Set le token à chaque requête (s'il existe)
     + Stocker/Récupérer le token dans le localStorage chez le client
+- Vérifier que R.js fonctionne avec Phonegap
 - Le faire fonctionner sur un android 2.3/4/5
 - Renommer les classes d'une façon plus cohérente
 - Faire une doc en même temps que le nouveau projet
@@ -61,5 +59,6 @@
 - Général
     - Tuto de mise en place rapide d'un projet
     - Procédure de mise à jour (documentation des modules et lib à updater)
+    - Tuto de développement
 
 Tuto sympa ici : http://backbonetutorials.com/nodejs-restify-mongodb-mongoose/
