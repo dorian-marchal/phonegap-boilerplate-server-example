@@ -1,7 +1,7 @@
 ## Roadmap
 
 ### Code
-- Importer le projet sur Android Studio
+- Redesigner le projet (sous modules ou subtree ?)
 - Le faire fonctionner sur un android 2.3/4/5
 - Séparer le coeur de l'exemple (deux dépôts séparés)
 - Vérifier que l'authentification fonctionne bien
