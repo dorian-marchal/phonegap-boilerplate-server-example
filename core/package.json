@@ -7,8 +7,7 @@
     "mongoose": "^3.8.24",
     "mysql": "^2.5.5",
     "passport": "^0.2.1",
-    "passport-http-bearer": "^1.0.1",
-    "passport-local": "^1.0.0"
+    "passport-http-bearer": "^1.0.1"
   },
   "name": "phonegap-boilerplate-server",
   "description": "A simple rest server for Phonegap Boilerplate",
