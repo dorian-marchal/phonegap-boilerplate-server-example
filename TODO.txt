@@ -5,6 +5,9 @@
 - Le faire fonctionner sur un android 2.3/4/5
 - Séparer le coeur de l'exemple (deux dépôts séparés)
 - Vérifier que l'authentification fonctionne bien
+    + Passer à une authentification via token
+    + Modifier les classes de l'API client
+    + Stocker/Récupérer le token dans le localStorage chez le client
 - Renommer les classes d'une façon plus cohérente
 - Faire une doc en même temps que le nouveau projet
 - Automatiser le routing
