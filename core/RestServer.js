@@ -38,7 +38,6 @@ var RestServer = function(options) {
 
     router.use(cors({
         origin: this.config.corsOrigin,
-        credentials: true,
     }));
     router.use(bodyParser.urlencoded({ extended: false }));
 

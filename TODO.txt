@@ -9,6 +9,7 @@
     + Modifier les classes de l'API client
         * Set le token à chaque requête (s'il existe)
     + Stocker/Récupérer le token dans le localStorage chez le client
+    + Supprimer la config jQuery pour les credentials
 - Vérifier que R.js fonctionne avec Phonegap
 - Le faire fonctionner sur un android 2.3/4/5
 - Renommer les classes d'une façon plus cohérente
