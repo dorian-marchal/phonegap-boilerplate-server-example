@@ -1,12 +1,19 @@
 ## Roadmap
 
 ### Code
-- Importer le projet sur Android Studio
-- Le faire fonctionner sur un android 2.3/4/5
-- Séparer le coeur de l'exemple (deux dépôts séparés)
-- Vérifier que l'authentification fonctionne bien
+- Redesigner le projet (sous modules ou subtree ?)
+    + push
+    + pull
 - Vérifier que R.js fonctionne avec Phonegap
-- Faire un module Cordova
+- Vérifier que l'authentification fonctionne bien
+    + Passer à une authentification via token
+        * suppression des sessions
+        * authentification via local -> set le token
+        * checking de l'auth via bearer
+    + Modifier les classes de l'API client
+        * Set le token à chaque requête (s'il existe)
+    + Stocker/Récupérer le token dans le localStorage chez le client
+- Le faire fonctionner sur un android 2.3/4/5
 - Renommer les classes d'une façon plus cohérente
 - Faire une doc en même temps que le nouveau projet
 - Automatiser le routing
