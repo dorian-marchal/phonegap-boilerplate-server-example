@@ -12,6 +12,7 @@ function onStart() {
 
     // Configure the authentification
     var UserSchema = new server.mongoose.Schema({
+        token: String,
         username: String,
         password: String,
     }, {
@@ -21,34 +22,99 @@ function onStart() {
 
     var User = server.mongoose.model('User', UserSchema);
 
-    server.passport.use(new server.LocalStrategy(
-        function(username, password, done) {
-            console.log(username, password);
-            User.findOne({ username: username }, function(err, user) {
-                if (err) { return done(err); }
-                if (!user) {
-                    return done(null, false, { message: 'Incorrect username.' });
+    server.passport.use(new server.BearerStrategy(
+        function(token, done) {
+
+            if (!token) {
+                return done('Falsy token.');
+            }
+
+            User.findOne({ token: token }, function(err, user) {
+                if (err) {
+                    return done(err);
                 }
-                if (user.password !== password) {
-                    return done(null, false, { message: 'Incorrect password.' });
+                if (!user) {
+                    return done(null, false, { message: 'Incorrect token.' });
                 }
                 return done(null, user);
             });
           }
     ));
 
-    server.passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
+    var bearerAuthenticateMiddleware = server.passport.authenticate('bearer', { session : false});
 
-    server.passport.deserializeUser(function(id, done) {
-        console.log(id);
-        User.findById(id, function(err, user) {
-            console.log(user);
-            done(err, user);
+    /**
+     * Check if User exists based on username/password
+     */
+    var loginMiddleware = function(req, res, next) {
+
+        // username or password missing
+        if (!(req.body.username && req.body.password)) {
+            res.sendStatus(401);
+            return;
+        }
+
+        User.findOne(
+            {
+                username: req.body.username,
+                password: req.body.password,
+            },
+            function(err, user) {
+
+                if (err) {
+                    res.sendStatus(500);
+                    return;
+                }
+                if (!user) {
+                    res.sendStatus(401);
+                    return;
+                }
+
+                req.user = user;
+                next();
+            }
+        );
+    };
+
+    /**
+     * Update the token of the req.user and set the req.user.token var
+     */
+    var updateTokenMiddleware = function(req, res, next) {
+
+        if (!req.user) {
+            res.sendStatus(500);
+            return console.error('req.user not set');
+        }
+
+        req.user.token = server.uuid.v4();
+
+        req.user.save(function(err) {
+            if (err) {
+                return console.error(err);
+            }
+            next();
         });
-    });
+    };
 
+    /**
+     * Null the token of the req.user
+     */
+    var clearTokenMiddleware = function(req, res, next) {
+
+        if (!req.user) {
+            res.sendStatus(500);
+            return console.error('req.user not set');
+        }
+
+        req.user.token = null;
+
+        req.user.save(function(err) {
+            if (err) {
+                return console.error(err);
+            }
+            next();
+        });
+    };
 
     var MyModelSchema = new server.mongoose.Schema({
         attribute: String,
@@ -103,32 +169,22 @@ function onStart() {
         });
     }
 
-    function ensureAuthentication(req, res, next) {
-        if (req.isAuthenticated()) {
-            return next();
-        }
-        else {
-            console.log('User not logged in');
-            res.sendStatus(401);
-        }
-    }
-
     // Set up our routes and start the server
-    server.router.post('/login', server.passport.authenticate('local'), function(req, res) {
-        res.sendStatus(200);
+    server.router.post('/login', loginMiddleware, updateTokenMiddleware, function(req, res) {
+        res.send(req.user.token);
     });
 
-    server.router.post('/logout', function(req, res) {
+    server.router.post('/logout', bearerAuthenticateMiddleware, clearTokenMiddleware, function(req, res) {
         req.logout();
         res.sendStatus(200);
     });
 
     // Send status 200 if the user is authentificated. Else send 401 status.
-    server.router.get('/logged-in', ensureAuthentication, function(req, res) {
+    server.router.get('/logged-in', bearerAuthenticateMiddleware, function(req, res) {
         res.sendStatus(200);
     });
-    server.router.get('/mymodels', ensureAuthentication, getMyModels);
-    server.router.post('/mymodels', ensureAuthentication, postMyModel);
+    server.router.get('/mymodels', bearerAuthenticateMiddleware, getMyModels);
+    server.router.post('/mymodels', bearerAuthenticateMiddleware, postMyModel);
 
 }
 
