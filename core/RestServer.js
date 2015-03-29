@@ -49,6 +49,8 @@ var RestServer = function(options) {
 
         this.passport = passport;
         this.BearerStrategy = require('passport-http-bearer').Strategy;
+
+        this.uuid = require('node-uuid');
     }
 
     this.router = router;

@@ -1,6 +1,7 @@
 ## Roadmap
 
 ### Code
+
 - Vérifier que l'authentification fonctionne bien
     + Passer à une authentification via token
         * suppression des sessions
@@ -36,7 +37,16 @@
 - Fichier de config (ignoré par git)
 - Régler problème de position fixed
 - Régler chargement de page avant transition
-- Passer à express plutôt que restify ?
+- Gérer les erreurs
+    + Handler global envoyant un mail ?
+    + Relancer automatiquement le serveur
+
+### Fonctionnalités
+- Splashscreen
+- Icônes
+- Faire un SitlorAppBoilerplate
+    + Fiches dans un Singleton
+- Internationalisation
 
 ### Doc
 - Serveur

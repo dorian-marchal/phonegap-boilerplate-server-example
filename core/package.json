@@ -6,6 +6,7 @@
     "express": "^4.12.2",
     "mongoose": "^3.8.24",
     "mysql": "^2.5.5",
+    "node-uuid": "^1.4.3",
     "passport": "^0.2.1",
     "passport-http-bearer": "^1.0.1"
   },
