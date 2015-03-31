@@ -8,9 +8,6 @@
  *     this.router : express instance
  *
  * Server Options :
- *     useAuth (default: false) ; If true, the passport property will be defined
- *         this.passport : passport instance
- *         this.BearerStrategy : passport BearerStrategy (token based strategy)
  *     useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
  *         this.mongoose : Mongoose instance
  *         this.mongoConnection : MongoDb connection
@@ -40,18 +37,6 @@ var RestServer = function(options) {
         origin: this.config.corsOrigin,
     }));
     router.use(bodyParser.urlencoded({ extended: false }));
-
-    // Configure passport authentification
-    if (options.useAuth) {
-        var passport = require('passport');
-
-        router.use(passport.initialize());
-
-        this.passport = passport;
-        this.BearerStrategy = require('passport-http-bearer').Strategy;
-
-        this.uuid = require('node-uuid');
-    }
 
     this.router = router;
 };
