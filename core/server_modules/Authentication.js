@@ -92,11 +92,7 @@ var Authentication = function() {
 
             that.findUserByUsernameAndPassword(req.body.username, req.body.password, function(err, user) {
 
-                if (err) {
-                    res.sendStatus(500);
-                    return;
-                }
-                if (!user) {
+                if (err || !user) {
                     res.sendStatus(401);
                     return;
                 }
