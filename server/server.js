@@ -104,15 +104,15 @@ function onStart() {
 
         var mymodel = new MyModel();
 
-        if (req.params.attribute) {
-            mymodel.attribute = req.params.attribute;
+        if (req.body.attribute) {
+            mymodel.attribute = req.body.attribute;
         }
         else {
             mymodel.attribute = 'default attribute';
         }
 
-        if (req.params.attribute2) {
-            mymodel.attribute2 = req.params.attribute2;
+        if (req.body.attribute2) {
+            mymodel.attribute2 = req.body.attribute2;
         }
         else {
             mymodel.attribute2 = -1;
