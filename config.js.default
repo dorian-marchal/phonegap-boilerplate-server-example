@@ -3,9 +3,11 @@
 var config = {
     port: 8080,
     db: {
+        // Optional, must only exist if useMongo is true
         mongo: {
             auth: 'mongodb://user:pass@localhost:27017/phonegap-db',
         },
+        // Optional, must only exist if useMysql is true
         mysql: {
             host: 'localhost',
             username: 'user',
@@ -14,7 +16,6 @@ var config = {
         },
     },
     corsOrigin: 'localhost', // Change to '*' in production
-    sessionSecret: 'phonegap-boilerplate-server',
 };
 
 module.exports = config;

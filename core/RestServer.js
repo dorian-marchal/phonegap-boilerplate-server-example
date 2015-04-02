@@ -8,9 +8,6 @@
  *     this.router : express instance
  *
  * Server Options :
- *     useAuth (default: false) ; If true, the passport property will be defined
- *         this.passport : passport instance
- *         this.LocalStrategy : passport LocalStrategy
  *     useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
  *         this.mongoose : Mongoose instance
  *         this.mongoConnection : MongoDb connection
@@ -38,27 +35,8 @@ var RestServer = function(options) {
 
     router.use(cors({
         origin: this.config.corsOrigin,
-        credentials: true,
     }));
     router.use(bodyParser.urlencoded({ extended: false }));
-
-    // Configure passport authentification
-    if (options.useAuth) {
-        var passport = require('passport');
-        var sessions = require('express-session');
-
-        router.use(sessions({
-            secret: this.config.sessionSecret,
-            maxAge: null,
-            resave: true,
-            saveUninitialized: true,
-        }));
-        router.use(passport.initialize());
-        router.use(passport.session());
-
-        this.passport = passport;
-        this.LocalStrategy = require('passport-local').Strategy;
-    }
 
     this.router = router;
 };
