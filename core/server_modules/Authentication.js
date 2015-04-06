@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * Add authentification fonctionnality to the server
+ * Add authentication fonctionnality to the server
  *
  * Usage :
  *
- * var auth = require('Authentification');
+ * var auth = require('Authentication');
  * auth.addTo(server);
  *
  * auth.findUserByToken = function(token, done) {
