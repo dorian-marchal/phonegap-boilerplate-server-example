@@ -19,8 +19,8 @@ var RestServer = function(options) {
 
     options = options || {};
 
-    this.useMongo = options.useMongo;
-    this.useMysql = options.useMysql;
+    this.useMongo = options.useMongo || false;
+    this.useMysql = options.useMysql || false;
 
     // Load configuration
     this.config = require('../config');
