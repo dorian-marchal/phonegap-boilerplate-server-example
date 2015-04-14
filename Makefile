@@ -3,8 +3,6 @@ install-dev:
 	./dev-scripts/install-dev
 
 install:
-	cd core
-	npm install
-	cd ..
+	cd core && npm install
 
 .PHONY: install-dev install
