@@ -54,7 +54,7 @@ var Authentication = function() {
 
         server.passport = passport;
 
-        server.router.use(server.passport.initialize());
+        server.app.use(server.passport.initialize());
 
         server.BearerStrategy = require('passport-http-bearer').Strategy;
 
@@ -146,17 +146,17 @@ var Authentication = function() {
         };
 
         // Set up our routes and start the server
-        server.router.post('/login', loginMiddleware, updateTokenMiddleware, function(req, res) {
+        server.app.post('/login', loginMiddleware, updateTokenMiddleware, function(req, res) {
             res.send(req.user.token);
         });
 
-        server.router.post('/logout', server.authenticateMiddleware, clearTokenMiddleware, function(req, res) {
+        server.app.post('/logout', server.authenticateMiddleware, clearTokenMiddleware, function(req, res) {
             req.logout();
             res.sendStatus(200);
         });
 
         // Send status 200 if the user is authentificated. Else send 401 status.
-        server.router.get('/logged-in', server.authenticateMiddleware, function(req, res) {
+        server.app.get('/logged-in', server.authenticateMiddleware, function(req, res) {
             res.sendStatus(200);
         });
     };
