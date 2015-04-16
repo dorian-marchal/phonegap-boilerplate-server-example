@@ -11,8 +11,10 @@ auth.addTo(server);
 
 function onStart() {
 
+    var mongoose = server.app.get('mongoose');
+
     // Configure the authentification
-    var UserSchema = new server.mongoose.Schema({
+    var UserSchema = new mongoose.Schema({
         token: String,
         username: String,
         password: String,
@@ -21,7 +23,7 @@ function onStart() {
     });
 
 
-    var User = server.mongoose.model('User', UserSchema);
+    var User = mongoose.model('User', UserSchema);
 
     auth.findUserByToken = function(token, done) {
 
@@ -75,14 +77,14 @@ function onStart() {
     };
 
 
-    var MyModelSchema = new server.mongoose.Schema({
+    var MyModelSchema = new mongoose.Schema({
         attribute: String,
         attribute2: Number,
         date: Date
     });
 
-    server.mongoose.model('MyModel', MyModelSchema);
-    var MyModel = server.mongoose.model('MyModel');
+    mongoose.model('MyModel', MyModelSchema);
+    var MyModel = mongoose.model('MyModel');
 
     function getMyModels(req, res) {
 
@@ -128,8 +130,8 @@ function onStart() {
         });
     }
 
-    server.router.get('/mymodels', server.authenticateMiddleware, getMyModels);
-    server.router.post('/mymodels', server.authenticateMiddleware, postMyModel);
+    server.app.get('/mymodels', server.authenticateMiddleware, getMyModels);
+    server.app.post('/mymodels', server.authenticateMiddleware, postMyModel);
 
 }
 
