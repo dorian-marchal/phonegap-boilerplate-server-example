@@ -31,14 +31,14 @@ var RestServer = function(options) {
     var cors = require('cors');
 
 
-    var router = express();
+    var app = express();
 
-    router.use(cors({
+    app.use(cors({
         origin: this.config.corsOrigin,
     }));
-    router.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({ extended: false }));
 
-    this.router = router;
+    this.app = app;
 };
 
 /**
@@ -111,7 +111,7 @@ RestServer.prototype.start = function(onStart) {
             throw err;
         }
 
-        that.router.listen(that.config.port, function() {
+        that.app.listen(that.config.port, function() {
             console.log('Server listening on port ' + that.config.port + '...');
             onStart();
         });
