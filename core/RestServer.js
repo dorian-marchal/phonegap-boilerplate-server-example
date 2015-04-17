@@ -81,7 +81,7 @@ RestServer.prototype.start = function(onStart) {
 
         var mysql = require('mysql');
 
-        var mysqlConnection = that.mysql.createConnection({
+        var mysqlConnection = mysql.createConnection({
             host : that.config.db.mysql.host,
             user : that.config.db.mysql.username,
             password : that.config.db.mysql.password,
