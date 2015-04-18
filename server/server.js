@@ -9,7 +9,7 @@ var server = new RestServer({
 
 var onStart = function() {
 
-    server.router.get('/', function(req, res) {
+    server.app.get('/', function(req, res) {
         res.send('Yup. It works.');
     });
 };
