@@ -13,6 +13,8 @@
  *     useMysql (default : false) ; If true, mysqlConnection will be defined
  *         that.app.set('mysql') : Mysql module instance
  *         that.app.set('mysqlConnection') : MySQL connection
+ *         that.app.set('bookshelf') : bookshelf instance
+ *
  */
 var RestServer = function(options) {
 
@@ -100,6 +102,22 @@ RestServer.prototype.start = function(onStart) {
             console.log('MySQL connected !');
             callback(null);
         });
+
+        var knex = require('knex')({
+            client: 'mysql',
+            connection: {
+                host : that.config.db.mysql.host,
+                user : that.config.db.mysql.username,
+                password : that.config.db.mysql.password,
+                database : that.config.db.mysql.database,
+                charset : 'utf8'
+            }
+        });
+
+        var bookshelf = require('bookshelf')(knex);
+
+        that.app.set('bookshelf', bookshelf);
+
     };
 
     var dbConnections = {};
