@@ -12,6 +12,7 @@
  *         this.app.set('mongoose') : Mongoose instance
  *     useMysql (default : false) ; If true, mysqlConnection will be defined
  *         that.app.set('bookshelf') : bookshelf instance
+ *         core/server_modules/bookshelf : bookshelf instance
  *
  */
 var RestServer = function(options) {
@@ -79,19 +80,7 @@ RestServer.prototype.start = function(onStart) {
     var connectMysql = function(done) {
         console.log('MySQL connection...');
 
-        var knex = require('knex')({
-            client: 'mysql',
-            connection: {
-                host : that.config.db.mysql.host,
-                user : that.config.db.mysql.username,
-                password : that.config.db.mysql.password,
-                database : that.config.db.mysql.database,
-                charset : 'utf8'
-            }
-        });
-
-        var bookshelf = require('bookshelf')(knex);
-
+        var bookshelf = require('./server_modules/bookshelf');
         that.app.set('bookshelf', bookshelf);
 
         console.log('MySQL connected !');
