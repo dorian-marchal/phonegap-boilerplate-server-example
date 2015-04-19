@@ -11,8 +11,6 @@
  *     useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
  *         this.app.set('mongoose') : Mongoose instance
  *     useMysql (default : false) ; If true, mysqlConnection will be defined
- *         that.app.set('mysql') : Mysql module instance
- *         that.app.set('mysqlConnection') : MySQL connection
  *         that.app.set('bookshelf') : bookshelf instance
  *
  */
@@ -57,7 +55,7 @@ RestServer.prototype.start = function(onStart) {
     console.log('Database connection...');
 
     // Make a connection to the mongo database
-    var connectMongo = function(callback) {
+    var connectMongo = function(done) {
         console.log('MongoDB connection...');
 
         var mongoose = require('mongoose/');
@@ -73,35 +71,13 @@ RestServer.prototype.start = function(onStart) {
 
         connection.once('open', function () {
             console.log('MongoDB connected !');
-            callback(null);
+            done(null);
         });
     };
 
     // Make a connection to the mysql database
-    var connectMysql = function(callback) {
+    var connectMysql = function(done) {
         console.log('MySQL connection...');
-
-        var mysql = require('mysql');
-
-        var mysqlConnection = mysql.createConnection({
-            host : that.config.db.mysql.host,
-            user : that.config.db.mysql.username,
-            password : that.config.db.mysql.password,
-            database : that.config.db.mysql.database,
-        });
-
-        that.app.set('mysql', mysql);
-        that.app.set('mysqlConnection', mysqlConnection);
-
-        mysqlConnection.connect(function(err) {
-            if (err) {
-                console.error('MySQL error');
-                throw err;
-            }
-
-            console.log('MySQL connected !');
-            callback(null);
-        });
 
         var knex = require('knex')({
             client: 'mysql',
@@ -117,6 +93,10 @@ RestServer.prototype.start = function(onStart) {
         var bookshelf = require('bookshelf')(knex);
 
         that.app.set('bookshelf', bookshelf);
+
+        console.log('MySQL connected !');
+
+        done(null);
 
     };
 
