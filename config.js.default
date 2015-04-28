@@ -15,7 +15,7 @@ var config = {
             database: 'db',
         },
     },
-    corsOrigin: 'localhost', // Change to '*' in production
+    corsOrigin: '*',
 };
 
 module.exports = config;
