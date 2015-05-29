@@ -9,18 +9,18 @@
  *
  * Server Options :
  *     useMongo (default : false) ; If true, mongoConnection and mongoose will be defined
- *         this.mongoose : Mongoose instance
- *         this.mongoConnection : MongoDb connection
+ *         this.app.set('mongoose') : Mongoose instance
  *     useMysql (default : false) ; If true, mysqlConnection will be defined
- *         that.mysql : Mysql module instance
- *         that.mysqlConnection : MySQL connection
+ *         that.app.set('bookshelf') : bookshelf instance
+ *         core/server_modules/bookshelf : bookshelf instance
+ *
  */
 var RestServer = function(options) {
 
     options = options || {};
 
-    this.useMongo = options.useMongo;
-    this.useMysql = options.useMysql;
+    this.useMongo = options.useMongo || false;
+    this.useMysql = options.useMysql || false;
 
     // Load configuration
     this.config = require('../config');
@@ -31,14 +31,14 @@ var RestServer = function(options) {
     var cors = require('cors');
 
 
-    var router = express();
+    var app = express();
 
-    router.use(cors({
+    app.use(cors({
         origin: this.config.corsOrigin,
     }));
-    router.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.urlencoded({ extended: false }));
 
-    this.router = router;
+    this.app = app;
 };
 
 /**
@@ -56,44 +56,37 @@ RestServer.prototype.start = function(onStart) {
     console.log('Database connection...');
 
     // Make a connection to the mongo database
-    var connectMongo = function(callback) {
+    var connectMongo = function(done) {
         console.log('MongoDB connection...');
-        that.mongoose = require('mongoose/');
-        that.mongoConnection = that.mongoose.connection;
-        that.mongoose.connect(that.config.db.mongo.auth);
 
-        that.mongoConnection.on('error', function(err) {
+        var mongoose = require('mongoose/');
+        var connection = mongoose.connection;
+        mongoose.connect(that.config.db.mongo.auth);
+
+        that.app.set('mongoose', mongoose);
+
+        connection.on('error', function(err) {
             console.error('MongoDB error');
             throw err;
         });
 
-        that.mongoConnection.once('open', function () {
+        connection.once('open', function () {
             console.log('MongoDB connected !');
-            callback(null);
+            done(null);
         });
     };
 
     // Make a connection to the mysql database
-    var connectMysql = function(callback) {
+    var connectMysql = function(done) {
         console.log('MySQL connection...');
-        that.mysql = require('mysql');
 
-        that.mysqlConnection = that.mysql.createConnection({
-            host : that.config.db.mysql.host,
-            user : that.config.db.mysql.username,
-            password : that.config.db.mysql.password,
-            database : that.config.db.mysql.database,
-        });
+        var bookshelf = require('./server_modules/bookshelf');
+        that.app.set('bookshelf', bookshelf);
 
-        that.mysqlConnection.connect(function(err) {
-            if (err) {
-                console.error('MySQL error');
-                throw err;
-            }
+        console.log('MySQL connected !');
 
-            console.log('MySQL connected !');
-            callback(null);
-        });
+        done(null);
+
     };
 
     var dbConnections = {};
@@ -111,7 +104,7 @@ RestServer.prototype.start = function(onStart) {
             throw err;
         }
 
-        that.router.listen(that.config.port, function() {
+        that.app.listen(that.config.port, function() {
             console.log('Server listening on port ' + that.config.port + '...');
             onStart();
         });
