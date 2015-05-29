@@ -15,5 +15,6 @@ var knex = require('../node_modules/knex')({
 
 var bookshelf = require('bookshelf')(knex);
 
-module.exports = bookshelf;
+bookshelf.plugin('registry');
 
+module.exports = bookshelf;
