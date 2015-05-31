@@ -5,6 +5,7 @@ var auth = require('../core/server_modules/Authentication');
 
 var server = new RestServer({
     useMongo: true,
+    useMysql: true,
 });
 
 auth.addTo(server);
@@ -135,6 +136,104 @@ function onStart() {
 
     var mysqlAuth = function () {
 
+        var knex = require('../core/server_modules/bookshelf').knex;
+
+        auth.findUserByToken = function(token, done) {
+
+            var kFindByToken = knex('user').where('token', '=', token);
+
+            kFindByToken
+                .then(function (rows) {
+                    if (rows.length > 0) {
+                        return done(null, rows[0]);
+                    }
+                    else {
+                        return done(new Error('Incorrect token.'));
+                    }
+                    return;
+                })
+                .catch(function (err) {
+                    console.error(err.message);
+                    done(err);
+                })
+            ;
+        };
+
+        auth.findUserByUsernameAndPassword = function(username, password, done) {
+
+            var kFindByUsernameAndPassword = knex('user')
+                .where('username', '=', username)
+                .andWhere('password', '=', password)
+            ;
+
+            kFindByUsernameAndPassword
+                .then(function (rows) {
+                    if (rows.length > 0) {
+                        return done(null, rows[0]);
+                    }
+                    else {
+                        return done(new Error('Incorrect username/password.'));
+                    }
+                    return;
+                })
+                .catch(function (err) {
+                    console.error(err.message);
+                    done(err);
+                })
+            ;
+        };
+
+        auth.updateUserToken = function(user, token, done) {
+
+            user.token = token;
+
+            var kUpdateToken = knex('user')
+                .where({id_user: user.id_user})
+                .update({token: token})
+            ;
+
+            kUpdateToken
+                .then(function() {
+                    done();
+                })
+                .catch(function (err) {
+                    return done(err);
+                })
+            ;
+        };
+
+        return {
+            getMyModels: function (req, res) {
+
+                knex('mymodel')
+                    .then(function (rows) {
+                        res.send(rows);
+                        return;
+                    })
+                    .catch(function (err) {
+                        return console.error(err);
+                    })
+                ;
+            },
+
+            postMyModel: function(req, res) {
+
+                var kSave = knex('mymodel').insert({
+                    attribute: req.body.attribute || 'default attribute',
+                    attribute2: req.body.attribute2 || 0,
+                });
+
+                kSave
+                    .then(function () {
+                        res.send(req.body);
+                        return;
+                    })
+                    .catch(function (err) {
+                        return console.error(err);
+                    })
+                ;
+            },
+        };
     };
 
     var authData = server.config.databaseEngine === 'mysql' ? mysqlAuth() : mongoAuth();
