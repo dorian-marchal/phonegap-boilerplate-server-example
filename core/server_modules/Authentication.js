@@ -47,10 +47,11 @@ var Authentication = function() {
          */
         server.authenticate = function (req, res, next) {
 
-            server.passport.authenticate('bearer', function () {
+            (server.passport.authenticate('bearer', { session : false }, function (err, user) {
+                req.user = user;
                 // In all cases, we next (even if an error occurs)
                 next();
-            });
+            }))(req, res, next);
         };
 
         /**
