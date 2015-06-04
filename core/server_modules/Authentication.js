@@ -89,12 +89,13 @@ var Authentication = function() {
 
             var newToken = uuid.v4();
 
-            that.updateUserToken(req.user, newToken, function(err) {
+            that.updateUserToken(req.user, newToken, function(err, newTokenOverride) {
                 if (err) {
                     res.sendStatus(500);
                     return console.error('User token update failed.');
                 }
 
+                req.user.token = newTokenOverride || newToken;
                 next();
             });
 
