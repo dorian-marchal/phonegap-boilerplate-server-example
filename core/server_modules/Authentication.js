@@ -122,7 +122,7 @@ var Authentication = function() {
 
         // Set up our routes and start the server
         server.app.post('/login', loginMiddleware, updateTokenMiddleware, function(req, res) {
-            res.send(req.user.token);
+            res.json(req.user);
         });
 
         server.app.post('/logout', server.requireAuthentication, clearTokenMiddleware, function(req, res) {
