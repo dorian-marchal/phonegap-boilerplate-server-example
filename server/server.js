@@ -2,10 +2,11 @@
 
 var RestServer = require('../core/RestServer');
 var auth = require('../core/server_modules/Authentication');
+var config = require('../config');
 
 var server = new RestServer({
-    useMongo: true,
-    useMysql: true,
+    useMongo: config.databaseEngine === 'mongodb',
+    useMysql: config.databaseEngine === 'mysql',
 });
 
 auth.addTo(server);
