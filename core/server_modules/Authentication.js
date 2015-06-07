@@ -2,46 +2,8 @@
 
 /**
  * Add authentication fonctionnality to the server
- *
- * Usage :
- *
- * var auth = require('Authentication');
- * auth.addTo(server);
- *
- * auth.findUserByToken = function(token, done) {
- *
- *      // Code to search user by token
- *
- *      // Error
- *      done('Error description');
- *
- *      // User found
- *      done(null, user);
- * };
- *
- * auth.findUserByUsernameAndPassword = function(username, password, done) {
- *
- *      // Code to search user by username/password
- *
- *      // Error
- *      done('Error description');
- *
- *      // User found
- *      done(null, user);
- * };
- *
- * auth.updateUserToken = function(user, token, done) {
- *
- *      // Code to update user token
- *
- *      // Error case
- *      done('Error description');
- *
- *      // Success case
- *      done();
- *
- * };
- *
+ * See the documentation for more informations :
+ * http://dorian-marchal.gitbooks.io/phonegap-boilerplate-documentation/content/auth.html
  */
 var Authentication = function() {
 
@@ -62,12 +24,9 @@ var Authentication = function() {
             function(token, done) {
 
                 that.findUserByToken(token, function(err, user) {
-                    if (err) {
-                        done('Find user by token failed.');
-                        return;
-                    }
-                    if (!user) {
-                        done('No user for this token');
+                    if (err || !user) {
+                        if (err) { console.error(err.message); }
+                        done();
                         return;
                     }
 
@@ -77,7 +36,23 @@ var Authentication = function() {
             }
         ));
 
-        server.authenticateMiddleware = server.passport.authenticate('bearer', { session : false });
+        /**
+         * Require an authentication to hand over the new middleware
+         */
+        server.requireAuthentication = server.passport.authenticate('bearer', { session : false });
+
+        /**
+         * Authenticate the user of an access_token is passed but do not require
+         * an authentication.
+         */
+        server.authenticate = function (req, res, next) {
+
+            (server.passport.authenticate('bearer', { session : false }, function (err, user) {
+                req.user = user;
+                // In all cases, we next (even if an error occurs)
+                next();
+            }))(req, res, next);
+        };
 
         /**
          * Check if User exists based on username/password
@@ -114,12 +89,13 @@ var Authentication = function() {
 
             var newToken = uuid.v4();
 
-            that.updateUserToken(req.user, newToken, function(err) {
+            that.updateUserToken(req.user, newToken, function(err, newTokenOverride) {
                 if (err) {
                     res.sendStatus(500);
                     return console.error('User token update failed.');
                 }
 
+                req.user.token = newTokenOverride || newToken;
                 next();
             });
 
@@ -147,16 +123,16 @@ var Authentication = function() {
 
         // Set up our routes and start the server
         server.app.post('/login', loginMiddleware, updateTokenMiddleware, function(req, res) {
-            res.send(req.user.token);
+            res.json(req.user);
         });
 
-        server.app.post('/logout', server.authenticateMiddleware, clearTokenMiddleware, function(req, res) {
+        server.app.post('/logout', server.requireAuthentication, clearTokenMiddleware, function(req, res) {
             req.logout();
             res.sendStatus(200);
         });
 
         // Send status 200 if the user is authentificated. Else send 401 status.
-        server.app.get('/logged-in', server.authenticateMiddleware, function(req, res) {
+        server.app.get('/logged-in', server.requireAuthentication, function(req, res) {
             res.sendStatus(200);
         });
     };
@@ -187,4 +163,3 @@ var Authentication = function() {
 };
 
 module.exports = new Authentication();
-

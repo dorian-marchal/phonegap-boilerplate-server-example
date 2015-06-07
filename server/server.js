@@ -239,8 +239,8 @@ function onStart() {
 
     var authData = server.config.databaseEngine === 'mysql' ? mysqlAuth() : mongoAuth();
 
-    server.app.get('/mymodels', server.authenticateMiddleware, authData.getMyModels);
-    server.app.post('/mymodels', server.authenticateMiddleware, authData.postMyModel);
+    server.app.get('/mymodels', server.requireAuthentication, authData.getMyModels);
+    server.app.post('/mymodels', server.requireAuthentication, authData.postMyModel);
 
 }
 
