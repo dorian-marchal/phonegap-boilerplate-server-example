@@ -16,6 +16,7 @@ var config = {
         },
     },
     corsOrigin: '*',
+    databaseEngine: 'mysql', // 'mysql' or 'mongodb' (This option is specific at this example)
 };
 
 module.exports = config;
