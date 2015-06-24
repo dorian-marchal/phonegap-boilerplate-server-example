@@ -131,7 +131,7 @@ var Authentication = function() {
             res.sendStatus(200);
         });
 
-        // Send status 200 if the user is authentificated. Else send 401 status.
+        // Send status 200 if the user is authenticated. Else send 401 status.
         server.app.get('/logged-in', server.requireAuthentication, function(req, res) {
             res.sendStatus(200);
         });
