@@ -4,6 +4,7 @@
   "description": "The server part of [Phonegap Boilerplate](https://github.com/dorian-marchal/phonegap-boilerplate).",
   "main": "server/server.js",
   "dependencies": {
+    "apicache": "0.0.12",
     "gulp": "~3.9.0",
     "gulp-nodemon": "~2.0.3"
   },

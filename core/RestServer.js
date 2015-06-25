@@ -38,6 +38,11 @@ var RestServer = function(options) {
     }));
     app.use(bodyParser.urlencoded({ extended: false }));
 
+    this.apicache = require('apicache').options({
+        defaultDuration: this.config.cache && this.config.cache.duration || 1000 * 60 * 60,
+        enabled: !(this.config.cache && this.config.cache.disable),
+    }).middleware;
+
     this.app = app;
 };
 
