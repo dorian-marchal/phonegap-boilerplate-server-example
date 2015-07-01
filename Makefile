@@ -1,6 +1,6 @@
 # Prepare the repo to start developing
 install-dev: install
-  npm install
+	npm install
 	./dev-scripts/install-dev
 
 install:
