@@ -56,6 +56,21 @@ RestServer.prototype.start = function(onStart) {
 
     onStart = onStart || function() {};
 
+    // Add the GET /version route
+    this.app.get('/version', function (req, res) {
+        var fs = require('fs');
+
+        fs.readFile(__dirname + '/../version.json', function (err, data) {
+          if (err) {
+              console.error(err);
+              res.send(err.message);
+          }
+          else {
+              res.send(JSON.parse(data).version);
+          }
+        });
+    });
+
     var async = require('async');
 
     console.log('Database connection...');
