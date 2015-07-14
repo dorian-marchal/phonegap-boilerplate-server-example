@@ -38,6 +38,11 @@ var RestServer = function(options) {
     }));
     app.use(bodyParser.urlencoded({ extended: false }));
 
+    this.apicache = require('apicache').options({
+        defaultDuration: this.config.cache && this.config.cache.duration || 1000 * 60 * 60,
+        enabled: !(this.config.cache && this.config.cache.disable),
+    }).middleware;
+
     this.app = app;
 };
 
@@ -50,6 +55,21 @@ RestServer.prototype.start = function(onStart) {
     var that = this;
 
     onStart = onStart || function() {};
+
+    // Add the GET /version route
+    this.app.get('/version', function (req, res) {
+        var fs = require('fs');
+
+        fs.readFile(__dirname + '/../version.json', function (err, data) {
+          if (err) {
+              console.error(err);
+              res.send(err.message);
+          }
+          else {
+              res.send(JSON.parse(data).version);
+          }
+        });
+    });
 
     var async = require('async');
 
