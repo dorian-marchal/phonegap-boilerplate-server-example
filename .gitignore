@@ -1,2 +1,4 @@
 /config.js
 node_modules
+/vendor/
+/pb-config.json
